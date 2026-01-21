@@ -1,11 +1,12 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Zane {
     public static final String LINE = "____________________________________________________________";
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        String[] list = new String[100];
-        int count = 0;
+        List<Task> list = new ArrayList<>();
 
         System.out.println(LINE);
         System.out.println("Hello! I'm Zane");
@@ -22,11 +23,26 @@ public class Zane {
             }
 
             if (userInput.equals("list")) {
-                printList(list, count);
-            } else {
-                list[count] = userInput;
-                count++;
-                printMessage( "added: " + userInput);
+                printList(list);
+            } else if (userInput.startsWith("mark")) {
+                String[] parts = userInput.split(" ");
+                int index = Integer.parseInt(parts[1]) - 1;
+                Task task = list.get(index);
+                task.setDone();
+                printMessage("Nice! I've marked this task as done:\n  " +
+                        "[" + task.getStatusIcon() + "] " + task.getDescription());
+            } else if (userInput.startsWith("unmark")) {
+                String[] parts = userInput.split(" ");
+                int index = Integer.parseInt(parts[1]) - 1;
+                Task task = list.get(index);
+                task.unsetDone();
+                printMessage("OK, I've marked this task as not done yet:\n  " +
+                        "[" + task.getStatusIcon() + "] " + task.getDescription());
+            }
+            else {
+                Task task = new Task(userInput);
+                list.add(task);
+                printMessage("added: " + userInput);
             }
         }
     }
@@ -37,10 +53,12 @@ public class Zane {
         System.out.println(LINE);
     }
 
-    public static void printList(String[] list, int count) {
+    public static void printList(List<Task> list) {
+        int count = 1;
         System.out.println(LINE);
-        for (int i = 0; i < count; i++) {
-            System.out.println((i + 1) + ". " + list[i]);
+        System.out.println("Here are the tasks in your list:");
+        for (Task task : list) {
+            System.out.println((count++) + ". [" + task.getStatusIcon() + "]" + " " + task.getDescription());
         }
         System.out.println(LINE);
     }
