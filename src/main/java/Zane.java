@@ -15,56 +15,74 @@ public class Zane {
 
         while (true) {
             String userInput = scanner.nextLine().trim();
-            if (userInput.equals("bye")) {
-                System.out.println(LINE);
-                System.out.println("Bye. Hope to see you again soon!");
-                System.out.println(LINE);
-                break;
-            }
+            try {
+                if (userInput.equals("bye")) {
+                    System.out.println(LINE);
+                    System.out.println("Bye. Hope to see you again soon!");
+                    System.out.println(LINE);
+                    break;
+                }
 
-            if (userInput.equals("list")) {
-                printList(list);
-            } else if (userInput.startsWith("mark")) {
-                String[] parts = userInput.split(" ");
-                int index = Integer.parseInt(parts[1]) - 1;
-                Task task = list.get(index);
-                task.setDone();
-                printMessage("Nice! I've marked this task as done:\n  " +
-                        "[" + task.getStatusIcon() + "] " + task.getDescription());
-            } else if (userInput.startsWith("unmark")) {
-                String[] parts = userInput.split(" ");
-                int index = Integer.parseInt(parts[1]) - 1;
-                Task task = list.get(index);
-                task.unsetDone();
-                printMessage("OK, I've marked this task as not done yet:\n  " +
-                        "[" + task.getStatusIcon() + "] " + task.getDescription());
-            } else if (userInput.startsWith("deadline")) {
-                String content = userInput.substring(9).trim();
-                String[] parts = content.split(" /by ");
-                String description = parts[0];
-                String by = parts[1];
+                if (userInput.equals("list")) {
+                    printList(list);
+                } else if (userInput.startsWith("mark")) {
+                    String[] parts = userInput.split(" ");
+                    int index = Integer.parseInt(parts[1]) - 1;
+                    Task task = list.get(index);
+                    task.setDone();
+                    printMessage("Nice! I've marked this task as done:\n  " +
+                            "[" + task.getStatusIcon() + "] " + task.getDescription());
+                } else if (userInput.startsWith("unmark")) {
+                    String[] parts = userInput.split(" ");
+                    int index = Integer.parseInt(parts[1]) - 1;
+                    Task task = list.get(index);
+                    task.unsetDone();
+                    printMessage("OK, I've marked this task as not done yet:\n  " +
+                            "[" + task.getStatusIcon() + "] " + task.getDescription());
+                } else if (userInput.startsWith("deadline")) {
+                    if (userInput.length() < 9) {
+                        throw new ZaneException("This is the wrong format.");
+                    }
 
-                Deadline deadline = new Deadline(description, by);
-                list.add(deadline);
-                printAddedTask(deadline, list.size());
-            } else if (userInput.startsWith("event")) {
-                String content = userInput.substring(6).trim();
-                String[] parts = content.split(" /from ");
-                String description = parts[0];
-                String[] timeParts = parts[1].split(" /to ");
-                String from = timeParts[0];
-                String to = timeParts[1];
+                    String content = userInput.substring(9).trim();
+                    String[] parts = content.split(" /by ");
+                    String description = parts[0];
+                    String by = parts[1];
 
-                Event event = new Event(description, from, to);
-                list.add(event);
-                printAddedTask(event, list.size());
-            } else if (userInput.startsWith("todo")) {
-                String description = userInput.substring(5).trim();
+                    Deadline deadline = new Deadline(description, by);
+                    list.add(deadline);
+                    printAddedTask(deadline, list.size());
+                } else if (userInput.startsWith("event")) {
+                    if (userInput.length() < 6) {
+                        throw new ZaneException("This is the wrong format.");
+                    }
 
-                Task task = new Todo(description);
-                list.add(task);
+                    String content = userInput.substring(6).trim();
+                    String[] parts = content.split(" /from ");
+                    String description = parts[0];
+                    String[] timeParts = parts[1].split(" /to ");
+                    String from = timeParts[0];
+                    String to = timeParts[1];
 
-                printAddedTask(task, list.size());
+                    Event event = new Event(description, from, to);
+                    list.add(event);
+                    printAddedTask(event, list.size());
+                } else if (userInput.startsWith("todo")) {
+                    if (userInput.length() < 5) {
+                        throw new ZaneException("This is the wrong format. Todo is missing a task name.");
+                    }
+
+                    String description = userInput.substring(5).trim();
+
+                    Task task = new Todo(description);
+                    list.add(task);
+
+                    printAddedTask(task, list.size());
+                } else {
+                    throw new ZaneException("You are not speaking my language. Try again.");
+                }
+            } catch (ZaneException e) {
+                printMessage(e.getMessage());
             }
         }
     }
