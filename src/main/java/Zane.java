@@ -38,11 +38,33 @@ public class Zane {
                 task.unsetDone();
                 printMessage("OK, I've marked this task as not done yet:\n  " +
                         "[" + task.getStatusIcon() + "] " + task.getDescription());
-            }
-            else {
-                Task task = new Task(userInput);
+            } else if (userInput.startsWith("deadline")) {
+                String content = userInput.substring(9).trim();
+                String[] parts = content.split(" /by ");
+                String description = parts[0];
+                String by = parts[1];
+
+                Deadline deadline = new Deadline(description, by);
+                list.add(deadline);
+                printAddedTask(deadline, list.size());
+            } else if (userInput.startsWith("event")) {
+                String content = userInput.substring(6).trim();
+                String[] parts = content.split(" /from ");
+                String description = parts[0];
+                String[] timeParts = parts[1].split(" /to ");
+                String from = timeParts[0];
+                String to = timeParts[1];
+
+                Event event = new Event(description, from, to);
+                list.add(event);
+                printAddedTask(event, list.size());
+            } else if (userInput.startsWith("todo")) {
+                String description = userInput.substring(5).trim();
+
+                Task task = new Todo(description);
                 list.add(task);
-                printMessage("added: " + userInput);
+
+                printAddedTask(task, list.size());
             }
         }
     }
@@ -53,12 +75,19 @@ public class Zane {
         System.out.println(LINE);
     }
 
+    public static void printAddedTask(Task task, int size) {
+        System.out.println(LINE);
+        System.out.println("Got it. I've added this task: \n " + task.toString());
+        System.out.println("Now you have " + size + " tasks in the list.");
+        System.out.println(LINE);
+    }
+
     public static void printList(List<Task> list) {
         int count = 1;
         System.out.println(LINE);
         System.out.println("Here are the tasks in your list:");
         for (Task task : list) {
-            System.out.println((count++) + ". [" + task.getStatusIcon() + "]" + " " + task.getDescription());
+            System.out.println((count++) + ". " + task.toString());
         }
         System.out.println(LINE);
     }
