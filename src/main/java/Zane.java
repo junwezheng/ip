@@ -78,13 +78,6 @@ public class Zane {
 
                     printAddedTask(task, list.size());
                 } else if (userInput.startsWith("delete")) {
-                    // delete 3
-                    //    ____________________________________________________________
-                    //     Noted. I've removed this task:
-                    //       [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
-                    //     Now you have 4 tasks in the list.
-                    //    ____________________________________________________________
-
                     String[] parts = userInput.split(" ");
                     int index = Integer.parseInt(parts[1]) - 1;
                     Task task = list.get(index);
