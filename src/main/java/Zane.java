@@ -1,12 +1,11 @@
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Zane {
     public static final String LINE = "____________________________________________________________";
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        List<Task> list = new ArrayList<>();
+        ArrayList<Task> list = new ArrayList<>();
 
         System.out.println(LINE);
         System.out.println("Hello! I'm Zane");
@@ -78,7 +77,21 @@ public class Zane {
                     list.add(task);
 
                     printAddedTask(task, list.size());
-                } else {
+                } else if (userInput.startsWith("delete")) {
+                    // delete 3
+                    //    ____________________________________________________________
+                    //     Noted. I've removed this task:
+                    //       [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+                    //     Now you have 4 tasks in the list.
+                    //    ____________________________________________________________
+
+                    String[] parts = userInput.split(" ");
+                    int index = Integer.parseInt(parts[1]) - 1;
+                    Task task = list.get(index);
+                    list.remove(index);
+                    printRemoveTask(task, list.size());
+                }
+                else {
                     throw new ZaneException("You are not speaking my language. Try again.");
                 }
             } catch (ZaneException e) {
@@ -100,7 +113,14 @@ public class Zane {
         System.out.println(LINE);
     }
 
-    public static void printList(List<Task> list) {
+    public static void printRemoveTask(Task task, int size) {
+        System.out.println(LINE);
+        System.out.println("Noted. I've removed this task: \n " + task.toString());
+        System.out.println("Now you have " + size + " tasks in the list.");
+        System.out.println(LINE);
+    }
+
+    public static void printList(ArrayList<Task> list) {
         int count = 1;
         System.out.println(LINE);
         System.out.println("Here are the tasks in your list:");
