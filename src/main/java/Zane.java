@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class Zane {
     public static final String LINE = "____________________________________________________________";
@@ -69,8 +70,9 @@ public class Zane {
                     String[] parts = content.split(" /by ");
                     String description = parts[0];
                     String by = parts[1];
-
-                    Deadline deadline = new Deadline(description, by);
+                    
+                    LocalDateTime date = Deadline.parseDate(by);
+                    Deadline deadline = new Deadline(description, date);
                     list.add(deadline);
                     saveData(list);
                     printAddedTask(deadline, list.size());
@@ -163,7 +165,7 @@ public class Zane {
             if (type.equals("T")) {
                 task = new Todo(description);
             } else if (type.equals("D")) {
-                String by = parts[3];
+                LocalDateTime by = Deadline.parseDate(parts[3]);
                 task = new Deadline(description, by);
             } else if (type.equals("E")) {
                 String[] timeParts = parts[3].split("-");
@@ -192,7 +194,7 @@ public class Zane {
                     details = task.getDescription();
                 } else if (task instanceof Deadline deadline) {
                     type = "D";
-                    details = deadline.getDescription() + " | " + deadline.getBy();
+                    details = deadline.getDescription() + " | " + deadline.getByForSave();
                 } else if (task instanceof Event e) {
                     type = "E";
                     details = e.getDescription() + " | " + e.getFrom() + "-" + e.getTo();
