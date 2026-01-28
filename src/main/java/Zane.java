@@ -1,11 +1,31 @@
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
 
 public class Zane {
     public static final String LINE = "____________________________________________________________";
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Task> list = new ArrayList<>();
+
+        File file = new File("data" + File.separator + "zane.txt");
+        try {
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+
+            if (!file.exists()) {
+                file.createNewFile();
+                System.out.println("No save file found. Created new file: data/zane.txt");
+            } else {
+                System.out.println("Loading data from existing file...");
+                loadData(file, list);
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred creating the file: " + e.getMessage());
+        }
 
         System.out.println(LINE);
         System.out.println("Hello! I'm Zane");
@@ -29,6 +49,7 @@ public class Zane {
                     int index = Integer.parseInt(parts[1]) - 1;
                     Task task = list.get(index);
                     task.setDone();
+                    saveData(list);
                     printMessage("Nice! I've marked this task as done:\n  " +
                             "[" + task.getStatusIcon() + "] " + task.getDescription());
                 } else if (userInput.startsWith("unmark")) {
@@ -36,6 +57,7 @@ public class Zane {
                     int index = Integer.parseInt(parts[1]) - 1;
                     Task task = list.get(index);
                     task.unsetDone();
+                    saveData(list);
                     printMessage("OK, I've marked this task as not done yet:\n  " +
                             "[" + task.getStatusIcon() + "] " + task.getDescription());
                 } else if (userInput.startsWith("deadline")) {
@@ -50,6 +72,7 @@ public class Zane {
 
                     Deadline deadline = new Deadline(description, by);
                     list.add(deadline);
+                    saveData(list);
                     printAddedTask(deadline, list.size());
                 } else if (userInput.startsWith("event")) {
                     if (userInput.length() < 6) {
@@ -65,6 +88,7 @@ public class Zane {
 
                     Event event = new Event(description, from, to);
                     list.add(event);
+                    saveData(list);
                     printAddedTask(event, list.size());
                 } else if (userInput.startsWith("todo")) {
                     if (userInput.length() < 5) {
@@ -75,13 +99,14 @@ public class Zane {
 
                     Task task = new Todo(description);
                     list.add(task);
-
+                    saveData(list);
                     printAddedTask(task, list.size());
                 } else if (userInput.startsWith("delete")) {
                     String[] parts = userInput.split(" ");
                     int index = Integer.parseInt(parts[1]) - 1;
                     Task task = list.get(index);
                     list.remove(index);
+                    saveData(list);
                     printRemoveTask(task, list.size());
                 }
                 else {
@@ -121,5 +146,63 @@ public class Zane {
             System.out.println((count++) + ". " + task.toString());
         }
         System.out.println(LINE);
+    }
+
+    public static void loadData(File file, ArrayList<Task> list) throws IOException {
+        Scanner scanner = new Scanner(file);
+        while (scanner.hasNext()) {
+            String line = scanner.nextLine();
+            String[] parts = line.split(" \\| ");
+
+            String type = parts[0];
+            boolean isDone = parts[1].equals("1");
+            String description = parts[2];
+
+            Task task = null;
+
+            if (type.equals("T")) {
+                task = new Todo(description);
+            } else if (type.equals("D")) {
+                String by = parts[3];
+                task = new Deadline(description, by);
+            } else if (type.equals("E")) {
+                String[] timeParts = parts[3].split("-");
+                String from = timeParts[0];
+                String to = timeParts.length > 1 ? timeParts[1] : "";
+                task = new Event(description, from, to);
+            }
+
+            if (task != null) {
+                if (isDone) task.setDone();
+                list.add(task);
+            }
+        }
+    }
+
+    public static void saveData ( ArrayList<Task> list) {
+        try {
+            FileWriter writer = new FileWriter("data/zane.txt");
+            for (Task task : list) {
+                String type = "";
+                String status = task.isDone ? "1" : "0";
+                String details = "";
+
+                if (task instanceof Todo) {
+                    type = "T";
+                    details = task.getDescription();
+                } else if (task instanceof Deadline deadline) {
+                    type = "D";
+                    details = deadline.getDescription() + " | " + deadline.getBy();
+                } else if (task instanceof Event e) {
+                    type = "E";
+                    details = e.getDescription() + " | " + e.getFrom() + "-" + e.getTo();
+                }
+
+                writer.write(type + " | " + status + " | " + details + System.lineSeparator());
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error saving data: " + e.getMessage());
+        }
     }
 }
