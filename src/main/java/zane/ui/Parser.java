@@ -9,6 +9,7 @@ import zane.commands.ExitCommand;
 import zane.commands.ListCommand;
 import zane.commands.MarkCommand;
 import zane.commands.UnmarkCommand;
+import zane.commands.FindCommand;
 
 /**
  * Handles the parsing of the user input.
@@ -32,6 +33,12 @@ public class Parser {
             
         case "list":
             return new ListCommand();
+
+        case "find":
+            if (parts.length < 2) {
+                throw new ZaneException("Please specify a keyword to find.");
+            }
+            return new FindCommand(parts[1]);
             
         case "mark":
             if (parts.length < 2) {
