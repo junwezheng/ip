@@ -22,6 +22,7 @@ public class AddDeadlineCommand extends Command {
         if (description == null || description.trim().isEmpty()) {
             throw new ZaneException("The description of a deadline cannot be empty.");
         }
+
         LocalDateTime date = Deadline.parseDate(by);
         Deadline deadline = new Deadline(description.trim(), date);
         tasks.addTask(deadline);
