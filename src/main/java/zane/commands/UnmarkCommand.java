@@ -6,9 +6,18 @@ import zane.ui.Storage;
 import zane.ui.Ui;
 import zane.ui.ZaneException;
 
+/**
+ * Represents an unmark command.
+ * An unmark command is a command that unmarks a task as done.
+ * Provides methods to execute the unmark command.
+ */
 public class UnmarkCommand extends Command {
     private int index;
     
+    /**
+     * Constructor for the UnmarkCommand class.
+     * @param index The index of the task to unmark.
+     */
     public UnmarkCommand(int index) {
         this.index = index;
     }

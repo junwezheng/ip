@@ -14,9 +14,18 @@ import zane.task.Task;
 import zane.task.TaskList;
 import zane.task.Todo;
 
+/**
+ * Handles the storage of the tasks in the data file.
+ * Loads the tasks from the data file and saves the tasks to the data file.
+ */
 public class Storage {
     private String filePath;
 
+    /**
+     * Constructor for the Storage class.
+     * Creates the data file if it doesn't exist.
+     * @param filePath The path to the data file.
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
         File file = new File(filePath);

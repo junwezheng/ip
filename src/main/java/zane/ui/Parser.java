@@ -10,8 +10,18 @@ import zane.commands.ListCommand;
 import zane.commands.MarkCommand;
 import zane.commands.UnmarkCommand;
 
+/**
+ * Handles the parsing of the user input.
+ * Converts the user input into a Command object.
+ */
 public class Parser {
 
+    /**
+     * Parses the user input and returns a Command object.
+     * @param userInput The user input to parse.
+     * @return A Command object.
+     * @throws ZaneException If the user input is invalid.
+     */
     public static Command parse(String userInput) throws ZaneException {
         String[] parts = userInput.split(" ", 2);
         String commandWord = parts[0];
