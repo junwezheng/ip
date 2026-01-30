@@ -1,3 +1,11 @@
+package zane.commands;
+
+import zane.task.Event;
+import zane.task.TaskList;
+import zane.ui.Storage;
+import zane.ui.Ui;
+import zane.ui.ZaneException;
+
 public class AddEventCommand extends Command {
     private String description;
     private String from;

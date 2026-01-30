@@ -1,4 +1,9 @@
+package zane.ui;
+
 import java.util.Scanner;
+
+import zane.commands.Command;
+import zane.task.TaskList;
 
 public class Zane {
     private Ui ui;

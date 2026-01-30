@@ -1,4 +1,12 @@
+package zane.commands;
+
 import java.time.LocalDateTime;
+
+import zane.task.Deadline;
+import zane.task.TaskList;
+import zane.ui.Storage;
+import zane.ui.Ui;
+import zane.ui.ZaneException;
 
 public class AddDeadlineCommand extends Command {
     private String description;
