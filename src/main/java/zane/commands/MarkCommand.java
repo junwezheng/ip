@@ -6,9 +6,18 @@ import zane.ui.Storage;
 import zane.ui.Ui;
 import zane.ui.ZaneException;
 
+/**
+ * Represents a mark command.
+ * A mark command is a command that marks a task as done.
+ * Provides methods to execute the mark command.
+ */
 public class MarkCommand extends Command {
     private int index;
     
+    /**
+     * Constructor for the MarkCommand class.
+     * @param index The index of the task to mark.
+     */
     public MarkCommand(int index) {
         this.index = index;
     }

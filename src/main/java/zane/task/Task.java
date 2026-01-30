@@ -1,9 +1,18 @@
 package zane.task;
 
+/**
+ * Represents a task.
+ * A Task is a task that can be added to a TaskList.
+ * Provides methods to get the status of the task, set the task as done, and unset the task as done.
+ */
 public class Task {
     protected String description;
     protected boolean isDone;
 
+    /**
+     * Constructor for the Task class.
+     * Initialises the Task with the description and sets the task as not done.
+     */
     public Task(String description) {
         this.description = description;
         this.isDone = false;

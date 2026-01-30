@@ -2,9 +2,18 @@ package zane.task;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a list of tasks.
+ * A TaskList is a list of Task objects.
+ * Provides methods to add, remove, and get tasks from the list.
+ */
 public class TaskList {
     private ArrayList<Task> tasks;
 
+    /**
+     * Constructor for the TaskList class.
+     * Creates a new empty TaskList.
+     */
     public TaskList() {
         this.tasks = new ArrayList<Task>();
     }

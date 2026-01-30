@@ -8,10 +8,20 @@ import zane.ui.Storage;
 import zane.ui.Ui;
 import zane.ui.ZaneException;
 
+/**
+ * Represents an add deadline command.
+ * An add deadline command is a command that adds a deadline task to the task list.
+ * Provides methods to execute the add deadline command.
+ */
 public class AddDeadlineCommand extends Command {
     private String description;
     private String by;
     
+    /**
+     * Constructor for the AddDeadlineCommand class.
+     * @param description The description of the deadline task to add.
+     * @param by The due date of the deadline task.
+     */
     public AddDeadlineCommand(String description, String by) {
         this.description = description;
         this.by = by;

@@ -3,9 +3,17 @@ package zane.ui;
 import zane.task.Task;
 import zane.task.TaskList;
 
+/**
+ * Handles the UI for the Zane application.
+ * Displays messages to the user and formats the output.
+ */
 public class Ui {
     public static final String LINE = "____________________________________________________________";
 
+    /**
+     * Constructor for the Ui class.
+     * Displays the welcome message.
+     */
     public Ui() {
         showWelcome();
     }

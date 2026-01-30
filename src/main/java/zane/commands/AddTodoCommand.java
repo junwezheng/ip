@@ -6,9 +6,18 @@ import zane.ui.Storage;
 import zane.ui.Ui;
 import zane.ui.ZaneException;
 
+/**
+ * Represents an add todo command.
+ * An add todo command is a command that adds a todo task to the task list.
+ * Provides methods to execute the add todo command.
+ */
 public class AddTodoCommand extends Command {
     private String description;
     
+    /**
+     * Constructor for the AddTodoCommand class.
+     * @param description The description of the todo task to add.
+     */
     public AddTodoCommand(String description) {
         this.description = description;
     }
