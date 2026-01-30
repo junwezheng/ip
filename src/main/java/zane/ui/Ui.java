@@ -1,3 +1,8 @@
+package zane.ui;
+
+import zane.task.Task;
+import zane.task.TaskList;
+
 public class Ui {
     public static final String LINE = "____________________________________________________________";
 
