@@ -13,7 +13,7 @@ import zane.ui.ZaneException;
  */
 public class AddTodoCommand extends Command {
     private String description;
-    
+
     /**
      * Constructor for the AddTodoCommand class.
      * @param description The description of the todo task to add.
@@ -21,7 +21,7 @@ public class AddTodoCommand extends Command {
     public AddTodoCommand(String description) {
         this.description = description;
     }
-    
+
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException {
         if (description == null || description.trim().isEmpty()) {

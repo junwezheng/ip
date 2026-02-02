@@ -13,7 +13,7 @@ import zane.ui.ZaneException;
  */
 public class UnmarkCommand extends Command {
     private int index;
-    
+
     /**
      * Constructor for the UnmarkCommand class.
      * @param index The index of the task to unmark.
@@ -21,7 +21,7 @@ public class UnmarkCommand extends Command {
     public UnmarkCommand(int index) {
         this.index = index;
     }
-    
+
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException {
         Task task = tasks.getTask(index);

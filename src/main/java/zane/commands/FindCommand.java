@@ -13,7 +13,7 @@ import zane.ui.ZaneException;
  */
 public class FindCommand extends Command {
     private String keyword;
-    
+
     /**
      * Constructor for the FindCommand class.
      * @param keyword The keyword to find in the task list.
@@ -21,7 +21,7 @@ public class FindCommand extends Command {
     public FindCommand(String keyword) {
         this.keyword = keyword;
     }
-    
+
     /**
      * Executes the find command.
      * @param tasks The task list to execute the command on.

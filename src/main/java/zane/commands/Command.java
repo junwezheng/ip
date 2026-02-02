@@ -18,9 +18,8 @@ public abstract class Command {
      * @param storage The storage to save the tasks to.
      * @throws ZaneException If an error occurs while executing the command.
      */
-    
     public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException;
-    
+
     public boolean isExit() {
         return false;
     }

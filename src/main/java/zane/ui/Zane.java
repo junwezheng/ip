@@ -37,7 +37,7 @@ public class Zane {
     public void run() {
         Scanner scanner = new Scanner(System.in);
         boolean isExit = false;
-        
+
         while (!isExit) {
             String userInput = scanner.nextLine().trim();
             try {

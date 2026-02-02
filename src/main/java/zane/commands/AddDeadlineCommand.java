@@ -16,7 +16,7 @@ import zane.ui.ZaneException;
 public class AddDeadlineCommand extends Command {
     private String description;
     private String by;
-    
+
     /**
      * Constructor for the AddDeadlineCommand class.
      * @param description The description of the deadline task to add.
@@ -26,7 +26,7 @@ public class AddDeadlineCommand extends Command {
         this.description = description;
         this.by = by;
     }
-    
+
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException {
         if (description == null || description.trim().isEmpty()) {

@@ -13,7 +13,7 @@ import zane.ui.ZaneException;
  */
 public class MarkCommand extends Command {
     private int index;
-    
+
     /**
      * Constructor for the MarkCommand class.
      * @param index The index of the task to mark.
@@ -21,7 +21,7 @@ public class MarkCommand extends Command {
     public MarkCommand(int index) {
         this.index = index;
     }
-    
+
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException {
         Task task = tasks.getTask(index);

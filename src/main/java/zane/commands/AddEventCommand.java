@@ -15,7 +15,7 @@ public class AddEventCommand extends Command {
     private String description;
     private String from;
     private String to;
-    
+
     /**
      * Constructor for the AddEventCommand class.
      * @param description The description of the event task to add.
@@ -27,7 +27,7 @@ public class AddEventCommand extends Command {
         this.from = from;
         this.to = to;
     }
-    
+
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException {
         if (description == null || description.trim().isEmpty()) {

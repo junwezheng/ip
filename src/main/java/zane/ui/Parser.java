@@ -6,10 +6,10 @@ import zane.commands.AddTodoCommand;
 import zane.commands.Command;
 import zane.commands.DeleteCommand;
 import zane.commands.ExitCommand;
+import zane.commands.FindCommand;
 import zane.commands.ListCommand;
 import zane.commands.MarkCommand;
 import zane.commands.UnmarkCommand;
-import zane.commands.FindCommand;
 
 /**
  * Handles the parsing of the user input.
@@ -26,11 +26,11 @@ public class Parser {
     public static Command parse(String userInput) throws ZaneException {
         String[] parts = userInput.split(" ", 2);
         String commandWord = parts[0];
-        
+
         switch (commandWord) {
         case "bye":
             return new ExitCommand();
-            
+
         case "list":
             return new ListCommand();
 
@@ -39,27 +39,27 @@ public class Parser {
                 throw new ZaneException("Please specify a keyword to find.");
             }
             return new FindCommand(parts[1]);
-            
+
         case "mark":
             if (parts.length < 2) {
                 throw new ZaneException("Please specify which task to mark.");
             }
             int markIndex = Integer.parseInt(parts[1]) - 1;
             return new MarkCommand(markIndex);
-            
+
         case "unmark":
             if (parts.length < 2) {
                 throw new ZaneException("Please specify which task to unmark.");
             }
             int unmarkIndex = Integer.parseInt(parts[1]) - 1;
             return new UnmarkCommand(unmarkIndex);
-            
+
         case "todo":
             if (parts.length < 2 || parts[1].trim().isEmpty()) {
                 throw new ZaneException("The description of a todo cannot be empty.");
             }
             return new AddTodoCommand(parts[1]);
-            
+
         case "deadline":
             if (parts.length < 2) {
                 throw new ZaneException("The description of a deadline cannot be empty.");
@@ -69,7 +69,7 @@ public class Parser {
                 throw new ZaneException("Please use the format: deadline <description> /by <date>");
             }
             return new AddDeadlineCommand(deadlineParts[0], deadlineParts[1]);
-            
+
         case "event":
             if (parts.length < 2) {
                 throw new ZaneException("The description of an event cannot be empty.");
@@ -84,14 +84,14 @@ public class Parser {
                 throw new ZaneException("Please use the format: event <description> /from <start> /to <end>");
             }
             return new AddEventCommand(description, timeParts[0], timeParts[1]);
-            
+
         case "delete":
             if (parts.length < 2) {
                 throw new ZaneException("Please specify which task to delete.");
             }
             int deleteIndex = Integer.parseInt(parts[1]) - 1;
             return new DeleteCommand(deleteIndex);
-            
+
         default:
             throw new ZaneException("I'm sorry, but I don't know what that means.");
         }

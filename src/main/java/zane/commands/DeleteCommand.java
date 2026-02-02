@@ -13,7 +13,7 @@ import zane.ui.ZaneException;
  */
 public class DeleteCommand extends Command {
     private int index;
-    
+
     /**
      * Constructor for the DeleteCommand class.
      * @param index The index of the task to delete.
@@ -21,7 +21,7 @@ public class DeleteCommand extends Command {
     public DeleteCommand(int index) {
         this.index = index;
     }
-    
+
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException {
         Task task = tasks.getTask(index);

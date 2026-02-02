@@ -1,8 +1,8 @@
 package zane.ui;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class Storage {
     public ArrayList<Task> load() throws ZaneException {
         ArrayList<Task> tasks = new ArrayList<Task>();
         File file = new File(filePath);
-        
+
         try {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
