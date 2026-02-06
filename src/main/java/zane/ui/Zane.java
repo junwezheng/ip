@@ -25,14 +25,29 @@ public class Zane {
         try {
             tasks = new TaskList(storage.load());
         } catch (ZaneException e) {
-            ui.showLoadingError();
+            System.out.println(ui.getLoadingErrorMessage());
             tasks = new TaskList();
         }
     }
 
     /**
-     * Main run loop for user interaction.
-     * Reads user input, parses it, executes the command, and updates the UI.
+     * Generates a response for the user's chat message.
+     * Used by the GUI to get a response string from the bot.
+     * @param input The user input to process.
+     * @return The response string from executing the command.
+     */
+    public String getResponse(String input) {
+        try {
+            Command command = Parser.parse(input);
+            return command.execute(tasks, ui, storage);
+        } catch (ZaneException e) {
+            return e.getMessage();
+        }
+    }
+
+    /**
+     * Main run loop for user interaction (CLI mode).
+     * Reads user input, parses it, executes the command, and prints the response.
      */
     public void run() {
         Scanner scanner = new Scanner(System.in);
@@ -42,10 +57,11 @@ public class Zane {
             String userInput = scanner.nextLine().trim();
             try {
                 Command command = Parser.parse(userInput);
-                command.execute(tasks, ui, storage);
+                String response = command.execute(tasks, ui, storage);
+                System.out.println(response);
                 isExit = command.isExit();
             } catch (ZaneException e) {
-                ui.printMessage(e.getMessage());
+                System.out.println(e.getMessage());
             }
         }
 

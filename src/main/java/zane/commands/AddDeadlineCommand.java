@@ -28,7 +28,7 @@ public class AddDeadlineCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException {
         if (description == null || description.trim().isEmpty()) {
             throw new ZaneException("The description of a deadline cannot be empty.");
         }
@@ -37,6 +37,6 @@ public class AddDeadlineCommand extends Command {
         Deadline deadline = new Deadline(description.trim(), date);
         tasks.addTask(deadline);
         storage.save(tasks);
-        ui.printAddedTask(deadline, tasks.size());
+        return ui.getAddedTaskMessage(deadline, tasks.size());
     }
 }

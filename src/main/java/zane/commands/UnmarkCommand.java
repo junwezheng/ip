@@ -23,10 +23,10 @@ public class UnmarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException {
         Task task = tasks.getTask(index);
         task.unsetDone();
         storage.save(tasks);
-        ui.printMessage("OK, I've marked this task as not done yet:\n  " + task.toString());
+        return "OK, I've marked this task as not done yet:\n  " + task.toString();
     }
 }

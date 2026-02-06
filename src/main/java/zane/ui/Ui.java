@@ -5,64 +5,73 @@ import zane.task.TaskList;
 
 /**
  * Handles the UI for the Zane application.
- * Displays messages to the user and formats the output.
+ * Formats and returns response messages to the user.
  */
 public class Ui {
     public static final String LINE = "____________________________________________________________";
 
     /**
-     * Constructor for the Ui class.
-     * Displays the welcome message.
+     * Returns the welcome message.
+     *
+     * @return The welcome message string.
      */
-    public Ui() {
-        showWelcome();
+    public String getWelcomeMessage() {
+        return "Hello! I'm Zane\nWhat can I do for you?";
     }
 
-    public void showWelcome() {
-        System.out.println(LINE);
-        System.out.println("Hello! I'm Zane");
-        System.out.println("What can I do for you?");
-        System.out.println(LINE);
+    /**
+     * Returns the goodbye message.
+     *
+     * @return The goodbye message string.
+     */
+    public String getGoodbyeMessage() {
+        return "Bye. Hope to see you again soon!";
     }
 
-    public void showGoodbye() {
-        System.out.println(LINE);
-        System.out.println("Bye. Hope to see you again soon!");
-        System.out.println(LINE);
+    /**
+     * Returns the loading error message.
+     *
+     * @return The loading error message string.
+     */
+    public String getLoadingErrorMessage() {
+        return "Error loading tasks from file. Starting with empty list.";
     }
 
-    public void showLoadingError() {
-        System.out.println("Error loading tasks from file. Starting with empty list.");
+    /**
+     * Returns the message for a successfully added task.
+     *
+     * @param task The task that was added.
+     * @param size The total number of tasks after adding.
+     * @return The formatted message string.
+     */
+    public String getAddedTaskMessage(Task task, int size) {
+        return "Got it. I've added this task:\n  " + task.toString()
+                + "\nNow you have " + size + " tasks in the list.";
     }
 
-    public void printMessage(String message) {
-        System.out.println(LINE);
-        System.out.println(message);
-        System.out.println(LINE);
+    /**
+     * Returns the message for a successfully removed task.
+     *
+     * @param task The task that was removed.
+     * @param size The total number of tasks after removal.
+     * @return The formatted message string.
+     */
+    public String getRemovedTaskMessage(Task task, int size) {
+        return "Noted. I've removed this task:\n  " + task.toString()
+                + "\nNow you have " + size + " tasks in the list.";
     }
 
-    public void printAddedTask(Task task, int size) {
-        System.out.println(LINE);
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + task.toString());
-        System.out.println("Now you have " + size + " tasks in the list.");
-        System.out.println(LINE);
-    }
-
-    public void printRemoveTask(Task task, int size) {
-        System.out.println(LINE);
-        System.out.println("Noted. I've removed this task:");
-        System.out.println("  " + task.toString());
-        System.out.println("Now you have " + size + " tasks in the list.");
-        System.out.println(LINE);
-    }
-
-    public void printList(TaskList tasks) {
-        System.out.println(LINE);
-        System.out.println("Here are the tasks in your list:");
+    /**
+     * Returns the formatted task list.
+     *
+     * @param tasks The task list to format.
+     * @return The formatted task list string.
+     */
+    public String getTaskListMessage(TaskList tasks) {
+        StringBuilder sb = new StringBuilder("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.getTask(i).toString());
+            sb.append("\n").append(i + 1).append(". ").append(tasks.getTask(i).toString());
         }
-        System.out.println(LINE);
+        return sb.toString();
     }
 }

@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private Zane zane = new Zane();
+    private Zane zane = new Zane("data/zane.txt");
 
     @Override
     public void start(Stage stage) {

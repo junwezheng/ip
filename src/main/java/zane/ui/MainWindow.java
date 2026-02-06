@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+
 /**
  * Controller for the main GUI.
  */
@@ -19,9 +20,7 @@ public class MainWindow extends AnchorPane {
     private TextField userInput;
     @FXML
     private Button sendButton;
-
     private Zane zane;
-
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.jpg"));
     private Image zaneImage = new Image(this.getClass().getResourceAsStream("/images/Zane.jpg"));
 
@@ -30,8 +29,8 @@ public class MainWindow extends AnchorPane {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
-    public void setZane(Zane z) {
-        zane = z;
+    public void setZane(Zane zane) {
+        this.zane = zane;
     }
 
     @FXML
@@ -40,7 +39,7 @@ public class MainWindow extends AnchorPane {
         String response = zane.getResponse(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, zaneImage)
+                DialogBox.getZaneDialog(response, zaneImage)
         );
         userInput.clear();
     }
