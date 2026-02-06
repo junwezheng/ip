@@ -16,9 +16,10 @@ public abstract class Command {
      * @param tasks The task list to execute the command on.
      * @param ui The UI to display the output.
      * @param storage The storage to save the tasks to.
+     * @return The response message from executing the command.
      * @throws ZaneException If an error occurs while executing the command.
      */
-    public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException;
+    public abstract String execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException;
 
     public boolean isExit() {
         return false;

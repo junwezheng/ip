@@ -23,10 +23,10 @@ public class MarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException {
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException {
         Task task = tasks.getTask(index);
         task.setDone();
         storage.save(tasks);
-        ui.printMessage("Nice! I've marked this task as done:\n  " + task.toString());
+        return "Nice! I've marked this task as done:\n  " + task.toString();
     }
 }

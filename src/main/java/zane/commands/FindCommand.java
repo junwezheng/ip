@@ -27,18 +27,18 @@ public class FindCommand extends Command {
      * @param tasks The task list to execute the command on.
      * @param ui The UI to display the output.
      * @param storage The storage to save the tasks to.
+     * @return The response message listing matching tasks.
      * @throws ZaneException If an error occurs while executing the command.
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException {
-        System.out.println(Ui.LINE);
-        System.out.println("Here are the matching tasks in your list:");
+    public String execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException {
+        StringBuilder sb = new StringBuilder("Here are the matching tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
             Task task = tasks.getTask(i);
             if (task.getDescription().contains(keyword)) {
-                System.out.println(String.format("%d. %s", i + 1, task.toString()));
+                sb.append(String.format("\n%d. %s", i + 1, task.toString()));
             }
         }
-        System.out.println(Ui.LINE);
+        return sb.toString();
     }
 }
