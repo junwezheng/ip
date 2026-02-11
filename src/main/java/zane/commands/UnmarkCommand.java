@@ -12,19 +12,19 @@ import zane.ui.ZaneException;
  * Provides methods to execute the unmark command.
  */
 public class UnmarkCommand extends Command {
-    private int index;
+    private int targetIndex;
 
     /**
      * Constructor for the UnmarkCommand class.
-     * @param index The index of the task to unmark.
+     * @param targetIndex The 0-based index of the task to unmark in the task list.
      */
-    public UnmarkCommand(int index) {
-        this.index = index;
+    public UnmarkCommand(int targetIndex) {
+        this.targetIndex = targetIndex;
     }
 
     @Override
     public String execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException {
-        Task task = tasks.getTask(index);
+        Task task = tasks.getTask(targetIndex);
         task.unsetDone();
         storage.save(tasks);
         return "OK, I've marked this task as not done yet:\n  " + task.toString();

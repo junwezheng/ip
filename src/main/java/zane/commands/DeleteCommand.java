@@ -12,20 +12,20 @@ import zane.ui.ZaneException;
  * Provides methods to execute the delete command.
  */
 public class DeleteCommand extends Command {
-    private int index;
+    private int targetIndex;
 
     /**
      * Constructor for the DeleteCommand class.
-     * @param index The index of the task to delete.
+     * @param targetIndex The 0-based index of the task to delete in the task list.
      */
-    public DeleteCommand(int index) {
-        this.index = index;
+    public DeleteCommand(int targetIndex) {
+        this.targetIndex = targetIndex;
     }
 
     @Override
     public String execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException {
-        Task task = tasks.getTask(index);
-        tasks.removeTask(index);
+        Task task = tasks.getTask(targetIndex);
+        tasks.removeTask(targetIndex);
         storage.save(tasks);
         return ui.getRemovedTaskMessage(task, tasks.size());
     }

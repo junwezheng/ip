@@ -12,19 +12,19 @@ import zane.ui.ZaneException;
  * Provides methods to execute the mark command.
  */
 public class MarkCommand extends Command {
-    private int index;
+    private int targetIndex;
 
     /**
      * Constructor for the MarkCommand class.
-     * @param index The index of the task to mark.
+     * @param targetIndex The 0-based index of the task to mark in the task list.
      */
-    public MarkCommand(int index) {
-        this.index = index;
+    public MarkCommand(int targetIndex) {
+        this.targetIndex = targetIndex;
     }
 
     @Override
     public String execute(TaskList tasks, Ui ui, Storage storage) throws ZaneException {
-        Task task = tasks.getTask(index);
+        Task task = tasks.getTask(targetIndex);
         task.setDone();
         storage.save(tasks);
         return "Nice! I've marked this task as done:\n  " + task.toString();

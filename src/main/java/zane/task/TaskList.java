@@ -38,7 +38,11 @@ public class TaskList {
         return tasks.size();
     }
 
-    public ArrayList<Task> getTasks() {
+    /**
+     * Returns all tasks in the list.
+     * @return An ArrayList containing all tasks.
+     */
+    public ArrayList<Task> getAllTasks() {
         return tasks;
     }
 }

@@ -17,4 +17,9 @@ public class Todo extends Task {
     public String toString() {
         return "[T]" + "[" + getStatusIcon() + "] " + description;
     }
+
+    @Override
+    public String toFileString() {
+        return "T" + FILE_DELIMITER + (isDone() ? "1" : "0") + FILE_DELIMITER + description;
+    }
 }

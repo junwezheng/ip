@@ -23,7 +23,7 @@ public class Zane {
         ui = new Ui();
         storage = new Storage(filePath);
         try {
-            tasks = new TaskList(storage.load());
+            tasks = new TaskList(storage.loadTasksFromFile());
         } catch (ZaneException e) {
             System.out.println(ui.getLoadingErrorMessage());
             tasks = new TaskList();

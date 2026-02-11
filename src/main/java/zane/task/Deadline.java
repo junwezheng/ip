@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
  * Provides methods to get the due date of the deadline.
  */
 public class Deadline extends Task {
+    /** The due date and time by which this deadline task must be completed. */
     protected LocalDateTime by;
     private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
     private static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
@@ -38,7 +39,17 @@ public class Deadline extends Task {
         return "[D]" + "[" + getStatusIcon() + "] " + description + " (by: " + by.format(OUTPUT_FORMAT) + ")";
     }
 
-    public String getByForSave() {
+    /**
+     * Returns the due date formatted for saving to the data file.
+     * @return The due date in the save format (d/M/yyyy HHmm).
+     */
+    public String getFormattedDateForSave() {
         return by.format(SAVE_FORMAT);
+    }
+
+    @Override
+    public String toFileString() {
+        return "D" + FILE_DELIMITER + (isDone() ? "1" : "0") + FILE_DELIMITER + description
+                + FILE_DELIMITER + getFormattedDateForSave();
     }
 }

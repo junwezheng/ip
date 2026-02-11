@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import zane.task.Deadline;
 import zane.task.Event;
@@ -19,6 +20,8 @@ import zane.task.Todo;
  * Loads the tasks from the data file and saves the tasks to the data file.
  */
 public class Storage {
+    private static final String FILE_DELIMITER = " | ";
+
     private String filePath;
 
     /**
@@ -44,7 +47,12 @@ public class Storage {
         }
     }
 
-    public ArrayList<Task> load() throws ZaneException {
+    /**
+     * Loads tasks from the data file.
+     * @return An ArrayList of tasks loaded from the file.
+     * @throws ZaneException If the file is not found or cannot be read.
+     */
+    public ArrayList<Task> loadTasksFromFile() throws ZaneException {
         ArrayList<Task> tasks = new ArrayList<Task>();
         File file = new File(filePath);
 
@@ -52,7 +60,7 @@ public class Storage {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                String[] parts = line.split(" \\| ");
+                String[] parts = line.split(Pattern.quote(FILE_DELIMITER));
 
                 String type = parts[0];
                 boolean isDone = parts[1].equals("1");
@@ -67,9 +75,9 @@ public class Storage {
                     task = new Deadline(description, by);
                 } else if (type.equals("E")) {
                     String[] timeParts = parts[3].split("-");
-                    String from = timeParts[0];
-                    String to = timeParts.length > 1 ? timeParts[1] : "";
-                    task = new Event(description, from, to);
+                    String startTime = timeParts[0];
+                    String endTime = timeParts.length > 1 ? timeParts[1] : "";
+                    task = new Event(description, startTime, endTime);
                 }
 
                 if (task != null) {
@@ -91,24 +99,7 @@ public class Storage {
             FileWriter writer = new FileWriter(filePath);
             for (int i = 0; i < tasks.size(); i++) {
                 Task task = tasks.getTask(i);
-                String type = "";
-                String status = task.isDone() ? "1" : "0";
-                String details = "";
-
-                if (task instanceof Todo) {
-                    type = "T";
-                    details = task.getDescription();
-                } else if (task instanceof Deadline) {
-                    Deadline deadline = (Deadline) task;
-                    type = "D";
-                    details = deadline.getDescription() + " | " + deadline.getByForSave();
-                } else if (task instanceof Event) {
-                    Event e = (Event) task;
-                    type = "E";
-                    details = e.getDescription() + " | " + e.getFrom() + "-" + e.getTo();
-                }
-
-                writer.write(type + " | " + status + " | " + details + System.lineSeparator());
+                writer.write(task.toFileString() + System.lineSeparator());
             }
             writer.close();
         } catch (IOException e) {

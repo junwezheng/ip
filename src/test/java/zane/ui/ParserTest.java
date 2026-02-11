@@ -3,7 +3,15 @@ package zane.ui;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import zane.commands.*;
+
+import zane.commands.AddDeadlineCommand;
+import zane.commands.AddEventCommand;
+import zane.commands.AddTodoCommand;
+import zane.commands.DeleteCommand;
+import zane.commands.ExitCommand;
+import zane.commands.ListCommand;
+import zane.commands.MarkCommand;
+import zane.commands.UnmarkCommand;
 
 public class ParserTest {
     @Test

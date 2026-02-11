@@ -5,9 +5,12 @@ package zane.task;
  * A Task is a task that can be added to a TaskList.
  * Provides methods to get the status of the task, set the task as done, and unset the task as done.
  */
-public class Task {
+public abstract class Task {
+    /** Delimiter used when saving tasks to the data file. */
+    public static final String FILE_DELIMITER = " | ";
+
     protected String description;
-    protected boolean isDone;
+    protected boolean done;
 
     /**
      * Constructor for the Task class.
@@ -15,24 +18,30 @@ public class Task {
      */
     public Task(String description) {
         this.description = description;
-        this.isDone = false;
+        this.done = false;
     }
 
     public String getStatusIcon() {
-        return (isDone ? "X" : " ");
+        return (done ? "X" : " ");
     }
 
     public void setDone() {
-        isDone = true;
+        done = true;
     }
 
     public void unsetDone() {
-        isDone = false;
+        done = false;
     }
 
     public boolean isDone() {
-        return isDone;
+        return done;
     }
+
+    /**
+     * Returns the string representation of this task for saving to the data file.
+     * @return The formatted string to be written to the file.
+     */
+    public abstract String toFileString();
 
     public String getDescription() {
         return description;
