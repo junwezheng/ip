@@ -11,15 +11,6 @@ public class Ui {
     public static final String LINE = "____________________________________________________________";
 
     /**
-     * Returns the welcome message.
-     *
-     * @return The welcome message string.
-     */
-    public String getWelcomeMessage() {
-        return "Hello! I'm Zane\nWhat can I do for you?";
-    }
-
-    /**
      * Returns the goodbye message.
      *
      * @return The goodbye message string.
