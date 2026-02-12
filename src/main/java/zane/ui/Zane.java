@@ -37,6 +37,7 @@ public class Zane {
      * @return The response string from executing the command.
      */
     public String getResponse(String input) {
+        assert input != null : "User input cannot be null";
         try {
             Command command = Parser.parse(input);
             return command.execute(tasks, ui, storage);
@@ -55,6 +56,7 @@ public class Zane {
 
         while (!isExit) {
             String userInput = scanner.nextLine().trim();
+            assert userInput != null : "User input cannot be null";
             try {
                 Command command = Parser.parse(userInput);
                 String response = command.execute(tasks, ui, storage);
