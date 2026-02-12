@@ -26,6 +26,7 @@ public class Parser {
     public static Command parse(String userInput) throws ZaneException {
         String[] inputParts = userInput.split(" ", 2);
         String commandWord = inputParts[0];
+        assert commandWord != null : "Command word cannot be null";
 
         switch (commandWord) {
         case "bye":
