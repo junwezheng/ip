@@ -1,6 +1,7 @@
 package zane.task;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * Represents a list of tasks.
@@ -20,10 +21,20 @@ public class TaskList {
 
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = tasks;
+        sortByPriority();
     }
 
     public void addTask(Task task) {
         tasks.add(task);
+        sortByPriority();
+    }
+
+    /**
+     * Sorts the task list by priority (P1 first, P3 last).
+     * Uses a stable sort to preserve relative order among tasks with the same priority.
+     */
+    private void sortByPriority() {
+        tasks.sort(Comparator.comparingInt(Task::getPriority));
     }
 
     public void removeTask(int index) {

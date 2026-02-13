@@ -28,6 +28,11 @@ public class Deadline extends Task {
         this.priority = priority;
     }
 
+    @Override
+    public int getPriority() {
+        return priority;
+    }
+
     /**
      * Parses a date string into a LocalDateTime object.
      * @param dateStr The date string to parse.

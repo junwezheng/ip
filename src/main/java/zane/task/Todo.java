@@ -18,6 +18,11 @@ public class Todo extends Task {
     }
 
     @Override
+    public int getPriority() {
+        return priority;
+    }
+
+    @Override
     public String toString() {
         return "[P" + priority + "]" + "[T]" + "[" + getStatusIcon() + "] " + description;
     }

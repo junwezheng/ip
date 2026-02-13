@@ -38,6 +38,12 @@ public abstract class Task {
     }
 
     /**
+     * Returns the priority of this task.
+     * @return The priority level (1 = highest, 3 = lowest).
+     */
+    public abstract int getPriority();
+
+    /**
      * Returns the string representation of this task for saving to the data file.
      * @return The formatted string to be written to the file.
      */

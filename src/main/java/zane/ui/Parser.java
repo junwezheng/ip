@@ -16,6 +16,7 @@ import zane.commands.UnmarkCommand;
  * Converts the user input into a Command object.
  */
 public class Parser {
+    private static final int DEFAULT_PRIORITY = 3; // default lowest priority
 
     /**
      * Parses the user input and returns a Command object.
@@ -121,7 +122,7 @@ public class Parser {
 
             return priority;
         }
-        return 3;
+        return DEFAULT_PRIORITY;
     }
 
     private static String stripPriority(String args) {

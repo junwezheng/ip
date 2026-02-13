@@ -25,6 +25,11 @@ public class Event extends Task {
     }
 
     @Override
+    public int getPriority() {
+        return priority;
+    }
+
+    @Override
     public String toString() {
         return "[P" + priority + "]" + "[E]" + "[" + getStatusIcon() + "] " + description + " (from: " + startTime + " to: " + endTime + ")";
     }
