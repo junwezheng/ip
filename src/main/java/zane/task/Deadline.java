@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 public class Deadline extends Task {
     /** The due date and time by which this deadline task must be completed. */
     protected LocalDateTime by;
+    private int priority;
     private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
     private static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
     private static final DateTimeFormatter SAVE_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
@@ -19,10 +20,17 @@ public class Deadline extends Task {
      * Constructor for the Deadline class.
      * @param description The description of the Deadline task.
      * @param by The due date of the Deadline task.
+     * @param priority The priority of the Deadline task.
      */
-    public Deadline(String description, LocalDateTime by) {
+    public Deadline(String description, LocalDateTime by, int priority) {
         super(description);
         this.by = by;
+        this.priority = priority;
+    }
+
+    @Override
+    public int getPriority() {
+        return priority;
     }
 
     /**
@@ -36,7 +44,7 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return "[D]" + "[" + getStatusIcon() + "] " + description + " (by: " + by.format(OUTPUT_FORMAT) + ")";
+        return "[P" + priority + "]" + "[D]" + "[" + getStatusIcon() + "] " + description + " (by: " + by.format(OUTPUT_FORMAT) + ")";
     }
 
     /**
@@ -49,7 +57,7 @@ public class Deadline extends Task {
 
     @Override
     public String toFileString() {
-        return "D" + FILE_DELIMITER + (isDone() ? "1" : "0") + FILE_DELIMITER + description
+        return "P" + priority + "|D" + FILE_DELIMITER + (isDone() ? "1" : "0") + FILE_DELIMITER + description
                 + FILE_DELIMITER + getFormattedDateForSave();
     }
 }

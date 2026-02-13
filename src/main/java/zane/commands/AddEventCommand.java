@@ -15,17 +15,20 @@ public class AddEventCommand extends Command {
     private String description;
     private String from;
     private String to;
+    private int priority;
 
     /**
      * Constructor for the AddEventCommand class.
      * @param description The description of the event task to add.
      * @param from The start time of the event task.
      * @param to The end time of the event task.
+     * @param priority The priority of the event task to add.
      */
-    public AddEventCommand(String description, String from, String to) {
+    public AddEventCommand(String description, String from, String to, int priority) {
         this.description = description;
         this.from = from;
         this.to = to;
+        this.priority = priority;
     }
 
     @Override
@@ -33,7 +36,8 @@ public class AddEventCommand extends Command {
         if (description == null || description.trim().isEmpty()) {
             throw new ZaneException("The description of an event cannot be empty.");
         }
-        Event event = new Event(description.trim(), from, to);
+        
+        Event event = new Event(description.trim(), from, to, priority);
         tasks.addTask(event);
         storage.save(tasks);
         return ui.getAddedTaskMessage(event, tasks.size());

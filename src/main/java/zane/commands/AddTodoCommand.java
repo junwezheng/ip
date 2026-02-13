@@ -13,13 +13,16 @@ import zane.ui.ZaneException;
  */
 public class AddTodoCommand extends Command {
     private String description;
+    private int priority;
 
     /**
      * Constructor for the AddTodoCommand class.
      * @param description The description of the todo task to add.
+     * @param priority The priority of the todo task to add.
      */
-    public AddTodoCommand(String description) {
+    public AddTodoCommand(String description, int priority) {
         this.description = description;
+        this.priority = priority;
     }
 
     @Override
@@ -27,7 +30,8 @@ public class AddTodoCommand extends Command {
         if (description == null || description.trim().isEmpty()) {
             throw new ZaneException("The description of a todo cannot be empty.");
         }
-        Todo todo = new Todo(description.trim());
+        
+        Todo todo = new Todo(description.trim(), priority);
         tasks.addTask(todo);
         storage.save(tasks);
         return ui.getAddedTaskMessage(todo, tasks.size());
