@@ -62,22 +62,32 @@ public class Storage {
                 String line = scanner.nextLine();
                 String[] parts = line.split(Pattern.quote(FILE_DELIMITER));
 
-                String type = parts[0];
+                String typeField = parts[0];
                 boolean isDone = parts[1].equals("1");
                 String description = parts[2];
+                int priority = 3;
+                String type;
+
+                if (typeField.contains("|")) {
+                    String[] typeParts = typeField.split("\\|");
+                    priority = Integer.parseInt(typeParts[0].substring(1));
+                    type = typeParts[1];
+                } else {
+                    type = typeField;
+                }
 
                 Task task = null;
 
                 if (type.equals("T")) {
-                    task = new Todo(description);
+                    task = new Todo(description, priority);
                 } else if (type.equals("D")) {
                     LocalDateTime by = Deadline.parseDate(parts[3]);
-                    task = new Deadline(description, by);
+                    task = new Deadline(description, by, priority);
                 } else if (type.equals("E")) {
                     String[] timeParts = parts[3].split("-");
                     String startTime = timeParts[0];
                     String endTime = timeParts.length > 1 ? timeParts[1] : "";
-                    task = new Event(description, startTime, endTime);
+                    task = new Event(description, startTime, endTime, priority);
                 }
 
                 if (task != null) {

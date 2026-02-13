@@ -59,23 +59,29 @@ public class Parser {
             if (inputParts.length < 2 || inputParts[1].trim().isEmpty()) {
                 throw new ZaneException("The description of a todo cannot be empty.");
             }
-            return new AddTodoCommand(inputParts[1]);
+            int todoPriority = extractPriority(inputParts[1]);
+            String todoDescription = stripPriority(inputParts[1]);
+            return new AddTodoCommand(todoDescription, todoPriority);
 
         case "deadline":
             if (inputParts.length < 2) {
                 throw new ZaneException("The description of a deadline cannot be empty.");
             }
-            String[] deadlineParts = inputParts[1].split(" /by ");
+            int deadlinePriority = extractPriority(inputParts[1]);
+            String deadlineArgs = stripPriority(inputParts[1]);
+            String[] deadlineParts = deadlineArgs.split(" /by ");
             if (deadlineParts.length < 2) {
                 throw new ZaneException("Please use the format: deadline <description> /by <date>");
             }
-            return new AddDeadlineCommand(deadlineParts[0], deadlineParts[1]);
+            return new AddDeadlineCommand(deadlineParts[0], deadlineParts[1], deadlinePriority);
 
         case "event":
             if (inputParts.length < 2) {
                 throw new ZaneException("The description of an event cannot be empty.");
             }
-            String[] eventParts = inputParts[1].split(" /from ");
+            int eventPriority = extractPriority(inputParts[1]);
+            String eventArgs = stripPriority(inputParts[1]);
+            String[] eventParts = eventArgs.split(" /from ");
             if (eventParts.length < 2) {
                 throw new ZaneException("Please use the format: event <description> /from <start> /to <end>");
             }
@@ -84,7 +90,7 @@ public class Parser {
             if (timeParts.length < 2) {
                 throw new ZaneException("Please use the format: event <description> /from <start> /to <end>");
             }
-            return new AddEventCommand(description, timeParts[0], timeParts[1]);
+            return new AddEventCommand(description, timeParts[0], timeParts[1], eventPriority);
 
         case "delete":
             if (inputParts.length < 2) {
@@ -96,5 +102,32 @@ public class Parser {
         default:
             throw new ZaneException("I'm sorry, but I don't know what that means.");
         }
+    }
+
+    /**
+     * Extracts the priority from the user input.
+     * @param args The user input to extract the priority from.
+     * @return The priority.
+     * @throws ZaneException If the priority is invalid.
+     */
+    private static int extractPriority(String args) throws ZaneException {
+        if (args.contains(" /p ")) {
+            String[] parts = args.split(" /p ");
+            String pValue = parts[parts.length - 1].trim();
+            int priority = Integer.parseInt(pValue);
+            if (priority < 1 || priority > 3) {
+                throw new ZaneException("Priority must be 1, 2, or 3.");
+            }
+
+            return priority;
+        }
+        return 3;
+    }
+
+    private static String stripPriority(String args) {
+        if (args.contains(" /p ")) {
+            return args.substring(0, args.lastIndexOf(" /p ")).trim();
+        }
+        return args;
     }
 }

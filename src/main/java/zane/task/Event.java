@@ -8,22 +8,25 @@ package zane.task;
 public class Event extends Task {
     protected String startTime;
     protected String endTime;
+    private int priority;
 
     /**
      * Constructor for the Event class.
      * @param description The description of the Event task.
      * @param startTime The start time of the Event task.
      * @param endTime The end time of the Event task.
+     * @param priority The priority of the Event task.
      */
-    public Event(String description, String startTime, String endTime) {
+    public Event(String description, String startTime, String endTime, int priority) {
         super(description);
         this.startTime = startTime;
         this.endTime = endTime;
+        this.priority = priority;
     }
 
     @Override
     public String toString() {
-        return "[E]" + "[" + getStatusIcon() + "] " + description + " (from: " + startTime + " to: " + endTime + ")";
+        return "[P" + priority + "]" + "[E]" + "[" + getStatusIcon() + "] " + description + " (from: " + startTime + " to: " + endTime + ")";
     }
 
     /**
@@ -44,7 +47,7 @@ public class Event extends Task {
 
     @Override
     public String toFileString() {
-        return "E" + FILE_DELIMITER + (isDone() ? "1" : "0") + FILE_DELIMITER + description
+        return "P" + priority + "|E" + FILE_DELIMITER + (isDone() ? "1" : "0") + FILE_DELIMITER + description
                 + FILE_DELIMITER + startTime + "-" + endTime;
     }
 }

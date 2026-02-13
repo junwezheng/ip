@@ -16,15 +16,18 @@ import zane.ui.ZaneException;
 public class AddDeadlineCommand extends Command {
     private String description;
     private String by;
+    private int priority;
 
     /**
      * Constructor for the AddDeadlineCommand class.
      * @param description The description of the deadline task to add.
      * @param by The due date of the deadline task.
+     * @param priority The priority of the deadline task to add.
      */
-    public AddDeadlineCommand(String description, String by) {
+    public AddDeadlineCommand(String description, String by, int priority) {
         this.description = description;
         this.by = by;
+        this.priority = priority;
     }
 
     @Override
@@ -34,7 +37,7 @@ public class AddDeadlineCommand extends Command {
         }
 
         LocalDateTime date = Deadline.parseDate(by);
-        Deadline deadline = new Deadline(description.trim(), date);
+        Deadline deadline = new Deadline(description.trim(), date, priority);
         tasks.addTask(deadline);
         storage.save(tasks);
         return ui.getAddedTaskMessage(deadline, tasks.size());
