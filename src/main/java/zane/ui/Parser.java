@@ -28,81 +28,100 @@ public class Parser {
         String[] inputParts = userInput.split(" ", 2);
         String commandWord = inputParts[0];
         assert commandWord != null : "Command word cannot be null";
+        String arguments = inputParts.length > 1 ? inputParts[1] : "";
 
         switch (commandWord) {
         case "bye":
             return new ExitCommand();
-
         case "list":
             return new ListCommand();
-
         case "find":
-            if (inputParts.length < 2) {
-                throw new ZaneException("Please specify a keyword to find.");
-            }
-            return new FindCommand(inputParts[1]);
-
+            return parseFindCommand(arguments);
         case "mark":
-            if (inputParts.length < 2) {
-                throw new ZaneException("Please specify which task to mark.");
-            }
-            int markIndex = Integer.parseInt(inputParts[1]) - 1;
-            return new MarkCommand(markIndex);
-
+            return parseMarkCommand(arguments);
         case "unmark":
-            if (inputParts.length < 2) {
-                throw new ZaneException("Please specify which task to unmark.");
-            }
-            int unmarkIndex = Integer.parseInt(inputParts[1]) - 1;
-            return new UnmarkCommand(unmarkIndex);
-
+            return parseUnmarkCommand(arguments);
         case "todo":
-            if (inputParts.length < 2 || inputParts[1].trim().isEmpty()) {
-                throw new ZaneException("The description of a todo cannot be empty.");
-            }
-            int todoPriority = extractPriority(inputParts[1]);
-            String todoDescription = stripPriority(inputParts[1]);
-            return new AddTodoCommand(todoDescription, todoPriority);
-
+            return parseTodoCommand(arguments);
         case "deadline":
-            if (inputParts.length < 2) {
-                throw new ZaneException("The description of a deadline cannot be empty.");
-            }
-            int deadlinePriority = extractPriority(inputParts[1]);
-            String deadlineArgs = stripPriority(inputParts[1]);
-            String[] deadlineParts = deadlineArgs.split(" /by ");
-            if (deadlineParts.length < 2) {
-                throw new ZaneException("Please use the format: deadline <description> /by <date>");
-            }
-            return new AddDeadlineCommand(deadlineParts[0], deadlineParts[1], deadlinePriority);
-
+            return parseDeadlineCommand(arguments);
         case "event":
-            if (inputParts.length < 2) {
-                throw new ZaneException("The description of an event cannot be empty.");
-            }
-            int eventPriority = extractPriority(inputParts[1]);
-            String eventArgs = stripPriority(inputParts[1]);
-            String[] eventParts = eventArgs.split(" /from ");
-            if (eventParts.length < 2) {
-                throw new ZaneException("Please use the format: event <description> /from <start> /to <end>");
-            }
-            String description = eventParts[0];
-            String[] timeParts = eventParts[1].split(" /to ");
-            if (timeParts.length < 2) {
-                throw new ZaneException("Please use the format: event <description> /from <start> /to <end>");
-            }
-            return new AddEventCommand(description, timeParts[0], timeParts[1], eventPriority);
-
+            return parseEventCommand(arguments);
         case "delete":
-            if (inputParts.length < 2) {
-                throw new ZaneException("Please specify which task to delete.");
-            }
-            int deleteIndex = Integer.parseInt(inputParts[1]) - 1;
-            return new DeleteCommand(deleteIndex);
-
+            return parseDeleteCommand(arguments);
         default:
             throw new ZaneException("I'm sorry, but I don't know what that means.");
         }
+    }
+
+    private static Command parseFindCommand(String arguments) throws ZaneException {
+        if (arguments.isEmpty()) {
+            throw new ZaneException("Please specify a keyword to find.");
+        }
+        return new FindCommand(arguments);
+    }
+
+    private static Command parseMarkCommand(String arguments) throws ZaneException {
+        if (arguments.isEmpty()) {
+            throw new ZaneException("Please specify which task to mark.");
+        }
+        int markIndex = Integer.parseInt(arguments) - 1;
+        return new MarkCommand(markIndex);
+    }
+
+    private static Command parseUnmarkCommand(String arguments) throws ZaneException {
+        if (arguments.isEmpty()) {
+            throw new ZaneException("Please specify which task to unmark.");
+        }
+        int unmarkIndex = Integer.parseInt(arguments) - 1;
+        return new UnmarkCommand(unmarkIndex);
+    }
+
+    private static Command parseTodoCommand(String arguments) throws ZaneException {
+        if (arguments.trim().isEmpty()) {
+            throw new ZaneException("The description of a todo cannot be empty.");
+        }
+        int priority = extractPriority(arguments);
+        String description = stripPriority(arguments);
+        return new AddTodoCommand(description, priority);
+    }
+
+    private static Command parseDeadlineCommand(String arguments) throws ZaneException {
+        if (arguments.isEmpty()) {
+            throw new ZaneException("The description of a deadline cannot be empty.");
+        }
+        int priority = extractPriority(arguments);
+        String args = stripPriority(arguments);
+        String[] parts = args.split(" /by ");
+        if (parts.length < 2) {
+            throw new ZaneException("Please use the format: deadline <description> /by <date>");
+        }
+        return new AddDeadlineCommand(parts[0], parts[1], priority);
+    }
+
+    private static Command parseEventCommand(String arguments) throws ZaneException {
+        if (arguments.isEmpty()) {
+            throw new ZaneException("The description of an event cannot be empty.");
+        }
+        int priority = extractPriority(arguments);
+        String args = stripPriority(arguments);
+        String[] eventParts = args.split(" /from ");
+        if (eventParts.length < 2) {
+            throw new ZaneException("Please use the format: event <description> /from <start> /to <end>");
+        }
+        String[] timeParts = eventParts[1].split(" /to ");
+        if (timeParts.length < 2) {
+            throw new ZaneException("Please use the format: event <description> /from <start> /to <end>");
+        }
+        return new AddEventCommand(eventParts[0], timeParts[0], timeParts[1], priority);
+    }
+
+    private static Command parseDeleteCommand(String arguments) throws ZaneException {
+        if (arguments.isEmpty()) {
+            throw new ZaneException("Please specify which task to delete.");
+        }
+        int deleteIndex = Integer.parseInt(arguments) - 1;
+        return new DeleteCommand(deleteIndex);
     }
 
     /**

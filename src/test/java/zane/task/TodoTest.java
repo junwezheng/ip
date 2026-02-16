@@ -19,7 +19,7 @@ public class TodoTest {
     @Test
     public void testTodoMarked() {
         Todo todo = new Todo("book airplane ticket", 3);
-        todo.setDone();
+        todo.setIsDone();
         assertEquals("[P3][T][X] book airplane ticket", todo.toString());
     }
 }

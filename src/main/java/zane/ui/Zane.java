@@ -46,17 +46,13 @@ public class Zane {
         }
     }
 
-    /**
-     * Main run loop for user interaction (CLI mode).
-     * Reads user input, parses it, executes the command, and prints the response.
-     */
     public void run() {
         Scanner scanner = new Scanner(System.in);
         boolean isExit = false;
 
         while (!isExit) {
             String userInput = scanner.nextLine().trim();
-            assert userInput != null : "User input cannot be null";
+            assert !userInput.isEmpty() : "User input cannot be null";
             try {
                 Command command = Parser.parse(userInput);
                 String response = command.execute(tasks, ui, storage);

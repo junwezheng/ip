@@ -76,32 +76,34 @@ public class Storage {
                     type = typeField;
                 }
 
-                Task task = null;
-
-                if (type.equals("T")) {
-                    task = new Todo(description, priority);
-                } else if (type.equals("D")) {
-                    LocalDateTime by = Deadline.parseDate(parts[3]);
-                    task = new Deadline(description, by, priority);
-                } else if (type.equals("E")) {
-                    String[] timeParts = parts[3].split("-");
-                    String startTime = timeParts[0];
-                    String endTime = timeParts.length > 1 ? timeParts[1] : "";
-                    task = new Event(description, startTime, endTime, priority);
-                }
-
-                if (task != null) {
-                    if (isDone) {
-                        task.setDone();
-                    }
-                    tasks.add(task);
-                }
+                actions(null, priority, description, type, parts, isDone, tasks);
             }
             scanner.close();
         } catch (FileNotFoundException e) {
             throw new ZaneException("File not found: " + filePath);
         }
         return tasks;
+    }
+
+    public void actions(Task task, int priority, String description, String type, String[] parts, Boolean isDone, ArrayList<Task> tasks) {
+        if (type.equals("T")) {
+            task = new Todo(description, priority);
+        } else if (type.equals("D")) {
+            LocalDateTime by = Deadline.parseDate(parts[3]);
+            task = new Deadline(description, by, priority);
+        } else if (type.equals("E")) {
+            String[] timeParts = parts[3].split("-");
+            String startTime = timeParts[0];
+            String endTime = timeParts.length > 1 ? timeParts[1] : "";
+            task = new Event(description, startTime, endTime, priority);
+        }
+
+        if (task != null) {
+            if (isDone) {
+                task.setIsDone();
+            }
+            tasks.add(task);
+        }
     }
 
     public void save(TaskList tasks) {

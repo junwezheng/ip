@@ -10,7 +10,7 @@ public abstract class Task {
     public static final String FILE_DELIMITER = " | ";
 
     protected String description;
-    protected boolean done;
+    protected boolean isDone;
 
     /**
      * Constructor for the Task class.
@@ -18,23 +18,23 @@ public abstract class Task {
      */
     public Task(String description) {
         this.description = description;
-        this.done = false;
+        this.isDone = false;
     }
 
     public String getStatusIcon() {
-        return (done ? "X" : " ");
+        return (isDone ? "X" : " ");
     }
 
-    public void setDone() {
-        done = true;
+    public void setIsDone() {
+        isDone = true;
     }
 
     public void unsetDone() {
-        done = false;
+        isDone = false;
     }
 
     public boolean isDone() {
-        return done;
+        return isDone;
     }
 
     /**
