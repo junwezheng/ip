@@ -1,7 +1,10 @@
-T | 1 | read book
-D | 0 | return book | 6/6/2019 1800
-E | 0 | project meeting | Aug 6th 2pm-4pm
-T | 1 | join sports club
-D | 0 | return book | 2/12/2019 1800
-T | 0 | buy book
-T | 0 | complete cs2103T IP
+P1|D | 0 | Finish quiz | 18/2/2025 1000
+P2|E | 0 | Seminar | 25/2/2025 0900-25/2/2025 1100
+P3|T | 1 | read book
+P3|D | 0 | return book | 6/6/2019 1800
+P3|E | 0 | project meeting | Aug 6th 2pm-4pm
+P3|T | 1 | join sports club
+P3|D | 0 | return book | 2/12/2019 1800
+P3|T | 0 | buy book
+P3|T | 0 | complete cs2103T IP
+P3|T | 0 | Read chapter 3
